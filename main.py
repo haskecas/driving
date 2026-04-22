@@ -174,7 +174,7 @@ def fill_times(interval=2):
     start = datetime.strptime("03:00", "%H:%M")
     TARGET_TIMES = [
         (start + timedelta(minutes=interval * i)).strftime("%H:%M")
-        for i in range((18 * 60) // interval )
+        for i in range((21 * 60) // interval )
     ]
     print(TARGET_TIMES)
     print(len(TARGET_TIMES))
