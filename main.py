@@ -93,7 +93,13 @@ async def run_booking_logic(current_hm):
             #await chill()
             if "всі години зайняті на найближчі 14 днів" not in inst_response.text:
                 print("Є година")
-                await conv.send_message(inst_response.reply_markup.rows[0].buttons[0].text)
+                now_kyiv = datetime.now(KYIV_TZ)
+                today_str = now_kyiv.strftime("%d.%m")
+                date_button_text = inst_response.reply_markup.rows[0].buttons[0].text
+                if today_str in date_button_text:
+                    print(f"🛑 Nah, button has today's date ({today_str}). Hard pass. Skipping this turn.")
+                    continue
+                await conv.send_message(date_button_text)
                 inst_response = await conv.get_response()
                 free_times = []
                 bad_times = ["08:00", "09:00", "10:00", "11:00", "12:00"]
@@ -165,10 +171,10 @@ def fill_times(interval=2):
     global TARGET_TIMES
     from datetime import datetime, timedelta
 
-    start = datetime.strptime("00:00", "%H:%M")
+    start = datetime.strptime("03:00", "%H:%M")
     TARGET_TIMES = [
         (start + timedelta(minutes=interval * i)).strftime("%H:%M")
-        for i in range((24 * 60) // interval )
+        for i in range((18 * 60) // interval )
     ]
     print(TARGET_TIMES)
     print(len(TARGET_TIMES))
