@@ -102,12 +102,12 @@ async def run_booking_logic(current_hm):
                 await conv.send_message(date_button_text)
                 inst_response = await conv.get_response()
                 free_times = []
-                bad_times = ["08:00", "09:00", "10:00", "11:00", "12:00"]
+                bad_times = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00"]
                 for i in inst_response.reply_markup.rows:
                     for button in i.buttons:
                         if is_valid_time(button.text):
                             free_times.append(button.text)
-                free_times = free_times[::-1]
+                #free_times = free_times[::-1]
                 for i in free_times:
                     if i not in bad_times:
                         await conv.send_message(i)
